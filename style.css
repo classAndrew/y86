@@ -37,13 +37,23 @@
     font-weight: 80;
 }
 
+.reglist {
+    font-size: 16pt;
+}
+
+.left {
+    display: flex;
+    flex-direction: column;
+}
+
 body {
     font-family: 'Poppins', sans-serif;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     min-height: 100px;
     font-size: 12pt;
     background-color: #222222;
+    color: #ffffff;
     overflow-y: hidden;
     overflow-x: hidden;
 }
