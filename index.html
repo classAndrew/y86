@@ -1,26 +1,27 @@
 <html>
 
 <head>
-    <script src="index.js"></script>
+
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <!-- Maybe dynamically add the registers -->
     <div class="left">
-        <ul class="reglist">
-            <li>rsp</li>
-            <li>rbp</li>
-            <li>rax</li>
-            <li>rbx</li>
+        <label for="code" class="label">Visible State</label>
+        <ul class="reglist" , id="reglist">
         </ul>
-        <p>status</p>
+        <p>Stat: 0</p>
     </div>
-
-    <div class="fog">
+    <div class="middle">
+        <label for="code" class="label">Binary Assembled</label>
+        <textarea spellcheck="false" class="code_field" id="binout" required></textarea>
+    </div>
+    <div class="right">
+        <label for="code" class="label">Code</label>
         <textarea spellcheck="false" class="code_field" id="code" required>.pos 0</textarea>
-        <label for="code" class="code_label">Code</label>
     </div>
+    <script src="index.js"></script>
 </body>
 
 </html>
