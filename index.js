@@ -48,7 +48,7 @@ class RegisterFile {
                 0xE: 0
             }
             // 0xF no register
-        this.registerNames = {
+        this.regName = {
             "rax": 0,
             "rcx": 1,
             "rdx": 2,
@@ -90,15 +90,42 @@ class CPU {
 
 function assemble(asm_text) {
     let lines = asm_text.split("\n")
-    let binary = lines.map((line) => {
-        let lineSplit = line.split(" ")
-        console.log(lineSplit)
-    })
+    let binary = [];
+    for (line of lines) {
+        if (!line) continue;
+        let lineSplit = line.split(" ").filter((e) => e); // get rid of leading / trailing whitespace
+        let [ins, opr1, opr2, opr3] = lineSplit; // not all of these values will be filled
+        if (ins[0] === '.') { // Directives
+            switch (ins.substr(1)) {
+                case "pos": // TODO
+                    break;
+                default:
+                    break;
+            }
+            return;
+        }
+        let bytes = 0;
+        switch (ins) {
+            case "halt":
+                bytes = 0x00;
+                break;
+            case "nop":
+                bytes = 0x10;
+            case "rrmovq":
+                let [ra, rb] = [opr1.substr(1), opr2.substr(1)];
+                bytes = (opcodes[ins][0] << 8) + (cpu.RF.regName[ra] << 4) + cpu.RF.regName[rb];
+                break;
+            default: // NOP
+                break;
+        }
+        binary.push(bytes);
+    }
+    return binary;
 }
 
 const cpu = new CPU(1024);
 const registerList = document.querySelector("#reglist")
-Object.keys(cpu.RF.registerNames).forEach((register) => {
+Object.keys(cpu.RF.regName).forEach((register) => {
     let elm = document.createElement("li");
     elm.innerText = register + ": " + "0x0000000000000000"
     registerList.appendChild(elm)
