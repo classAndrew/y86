@@ -105,6 +105,8 @@ function assemble(asm_text) {
             return;
         }
         let bytes = 0;
+        let movasm = (ins, ra, rb) => (opcodes[ins][0] << 8) + (cpu.RF.regName[ra] << 4) + cpu.RF.regName[rb]
+        let n = (num) => BigInt(num)
         switch (ins) {
             case "halt":
                 bytes = 0x00;
@@ -112,8 +114,12 @@ function assemble(asm_text) {
             case "nop":
                 bytes = 0x10;
             case "rrmovq":
-                let [ra, rb] = [opr1.substr(1), opr2.substr(1)];
-                bytes = (opcodes[ins][0] << 8) + (cpu.RF.regName[ra] << 4) + cpu.RF.regName[rb];
+                bytes = movasm(ins, opr1.substr(1), opr2.substr(1));
+                break;
+            case "rmmovq":
+                console.log(parseInt(opr2))
+                console.log(n(opcodes[ins][0]) << n(64))
+                bytes = ((n(opcodes[ins][0] << 8) + n(0xF0) + n(cpu.RF.regName[opr1.substr(1)])) << n(64)) + n(parseInt(opr2))
                 break;
             default: // NOP
                 break;
